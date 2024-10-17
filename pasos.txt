@@ -1,0 +1,9 @@
+1. python -m venv venv
+2. django-admin startproject sistema_producto
+3. activar entorno virtual: .\venv\Scripts\activate
+4.- instalar django: pip install django
+5.- cambiarse a directorio del proyecto con comando: cd nombre_proyecto
+6.- levantar servidor con python manage.py runserver
+7.- crear y aplicar migraciones (python manage.py migrate / makemigrations)
+8.- crear una aplicación: python manage.py startapp productos
+9.- verificar que una app se encuentra correctamente instalada: python manage.py check productos

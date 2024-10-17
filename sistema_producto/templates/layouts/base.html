@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sist. Productos</title>
+
+    {% block estaticos %}
+    
+    {% endblock estaticos %}
+</head>
+<body>
+    <nav>
+        <a href="{% url "home" %}">Home</a>
+        <a href="{% url "productos" %}">Productos</a>
+    </nav>
+    <h1>Sistema de productos.</h1>
+
+    {% block contenido %}
+    
+    {% endblock contenido %}
+</body>
+</html>
