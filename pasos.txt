@@ -7,3 +7,8 @@
 7.- crear y aplicar migraciones (python manage.py migrate / makemigrations)
 8.- crear una aplicación: python manage.py startapp productos
 9.- verificar que una app se encuentra correctamente instalada: python manage.py check productos
+
+----------------------------------
+cada vez que creamos / modificamos los modelos tenemos que ejecutar los siguientes comandos:
+python manage.py makemigrations -> crear las migraciones
+python manage.py migrate -> para aplicar las migraciones
