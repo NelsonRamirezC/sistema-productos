@@ -5,7 +5,16 @@ from .models import Producto
 
 # VISTA PARA MOSTRAR TODOS LOS PRODUCTOS
 def productos(request):
-    return render(request, "productos/productos.html", {})
+    
+    #obtener todos los registros de la base de datos
+    lista_productos = Producto.objects.all()
+    
+    contexto = {}
+    contexto["productos"] = lista_productos
+    
+    return render(request, "productos/productos.html", contexto)
+
+
 
 # VISTA PARA REGISTRAR NUEVOS PRODUCTOS
 def add_productos(request):
@@ -24,14 +33,20 @@ def add_productos(request):
         
         print(nombre, descripcion, precio, stock)
         
-        nuevo_producto = Producto(nombre = nombre, descripcion=descripcion, precio=precio, stock = stock)
+        nuevo_producto = Producto(nombre=nombre, descripcion=descripcion, precio=precio, stock=stock)
         
         if nuevo_producto:
-            nuevo_producto.save()
-            contexto = {
-                "producto": nuevo_producto,
-                "id": nuevo_producto.id,
-                "mensaje": "Producto creado correctamente"
+            try:
+                nuevo_producto.save()
+                contexto = {
+                    "producto": nuevo_producto,
+                    "id": nuevo_producto.id,
+                    "mensaje": "Producto creado correctamente"
+                }
+                return render(request, "productos/add_productos.html", contexto)
+            except Exception as e:
+                contexto = {
+                "error": "Ha ocurrido un error al intentar conectarse con la base de datos."
             }
             return render(request, "productos/add_productos.html", contexto)
         else: 

@@ -11,5 +11,5 @@ class Producto(models.Model):
     categoria = models.CharField(default='Sin categoría', blank=False, null=False, max_length=50)
     
     def __str__(self):
-        return self.nombre
+        return f"Nombre: {self.nombre} - Precio: {self.precio}"
     
