@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import Producto
 
+from .forms import ProductoForm
+
 # Create your views here.
 
 # VISTA PARA MOSTRAR TODOS LOS PRODUCTOS
@@ -60,11 +62,16 @@ def add_productos(request):
         
 def add_producto_modelform(request):
     if request.method == 'GET':
-        return render(request, "productos/add_producto_modelform.html", {})
+        
+        form = ProductoForm()
+        
+        contexto = {}
+        contexto["form"] = form 
+        
+        return render(request, "productos/add_producto_modelform.html", contexto)
     
     if request.method == 'POST':
-        # LÓGICA PARA PROCESAR LOS DATOS.
-        
-        
+        # LÓGICA PARA PROCESAR LOS DATOS Y GUARDARLOS
+    
         return render(request, "productos/add_producto_modelform.html", {})
 
