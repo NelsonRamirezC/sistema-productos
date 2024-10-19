@@ -1,4 +1,6 @@
+from django.forms import ValidationError
 from django.shortcuts import render
+from django.contrib import messages
 from .models import Producto
 
 from .forms import ProductoForm
@@ -61,17 +63,26 @@ def add_productos(request):
         
         
 def add_producto_modelform(request):
-    if request.method == 'GET':
-        
-        form = ProductoForm()
-        
-        contexto = {}
-        contexto["form"] = form 
-        
-        return render(request, "productos/add_producto_modelform.html", contexto)
     
     if request.method == 'POST':
         # LÓGICA PARA PROCESAR LOS DATOS Y GUARDARLOS
+        form = ProductoForm(request.POST)
+        
+        if form.is_valid():
+            try:
+                producto = form.save(commit=False)
+                producto.clean() # váldamos que cumpla con las restricciones del modelo
+                producto.save() # guardamos los datos del modelo
+                messages.success(request, "producto creado correctamente.")
+            
+            except ValidationError as e:
+                messages.error(request, e.messages)
+        else:
+            messages.error(request, "Error al intentar crear el producto, intente nuevamente.")
+        
+        return render(request, "productos/add_producto_modelform.html", {"form": ProductoForm()})
     
-        return render(request, "productos/add_producto_modelform.html", {})
+    else:
+        form = ProductoForm()
+        return render(request, "productos/add_producto_modelform.html", {"form": form})
 

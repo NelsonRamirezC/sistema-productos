@@ -12,3 +12,5 @@
 cada vez que creamos / modificamos los modelos tenemos que ejecutar los siguientes comandos:
 python manage.py makemigrations -> crear las migraciones
 python manage.py migrate -> para aplicar las migraciones
+
+crear super usuario: py.exe .\manage.py createsuperuser
