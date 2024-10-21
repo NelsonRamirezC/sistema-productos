@@ -11,7 +11,6 @@ class Producto(models.Model):
         ('SIN_CATEGORIA', 'Sin categoría')
     ]
     
-    
     nombre = models.CharField(max_length=50, blank=False, null=False)
     descripcion = models.CharField(max_length=255, blank=False, null=False)
     precio = models.PositiveIntegerField(default=9999999, blank=False, null=False)
