@@ -30,7 +30,6 @@ def registro_view(request):
 
 
 def login_view(request):
-    form = None
     if request.method == 'POST':
         form = LoginUsuarioForm(request.POST)
         
@@ -38,33 +37,27 @@ def login_view(request):
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
             
-            print(email, password)
-            
             try:
                 user = User.objects.get(email=email)
-                print(user)
-                user = authenticate(username=user.username, password=password)
-                print(user)
-                if user is not None:
+                
+                if user.check_password(password):
                     login(request, user)
                     messages.success(request, f"Usuario {user.username} iniciado con éxito")
                     return HttpResponseRedirect("/")
                 else:
-                    messages.error(request, "Usuario o password incorrecto, verifique sus credenciales.")
-                    return render(request, 'usuarios/login.html', {"form": form})
-                
+                    messages.error(request, "Contraseña incorrecta. Verifique sus credenciales.")
+            except User.DoesNotExist:
+                messages.error(request, "El usuario con ese correo no existe.")
             except Exception as e:
-                    print(e)
-                    messages.error(request, "Usuario o password incorrecto, verifique sus credenciales.")
-                    return render(request, 'usuarios/login.html', {"form": form})
+                messages.error(request, "Ocurrió un error. Inténtelo nuevamente.")
         
         else:
-            messages.error(request, "Usuario o contraseña inválidos, vuelva a intentar.")
-            return render(request, 'usuarios/login.html', {"form": form})
-    else: 
-        
+            messages.error(request, "Formulario inválido. Por favor, revise los campos.")
+    
+    else:
         form = LoginUsuarioForm()
-        return render(request, 'usuarios/login.html', {"form": form})
+    
+    return render(request, 'usuarios/login.html', {"form": form})
     
     
     
