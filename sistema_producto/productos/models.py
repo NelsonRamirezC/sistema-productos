@@ -4,6 +4,12 @@ from django.forms import ValidationError
 # Create your models here.
 
 class Producto(models.Model):
+    
+    class Meta:
+        permissions = (
+            ('productos_vip', 'Puede visualizar exclusivos'),
+        )
+    
     CATEGORIAS = [
         ('HOGAR', 'Hogar'),
         ('COCINA', 'Cocina'),
