@@ -1,16 +1,6 @@
 {% extends "layouts/base.html" %}
 
 {% block contenido %}
-    <style>
-
-        .alert-error {
-            --bs-alert-color: var(--bs-danger-text-emphasis);
-            --bs-alert-bg: var(--bs-danger-bg-subtle);
-            --bs-alert-border-color: var(--bs-danger-border-subtle);
-            --bs-alert-link-color: var(--bs-danger-text-emphasis);
-        }
-
-    </style>
     <header>
         <h1 class="text-center py-3">Agregar productos</h1>
     </header>
@@ -30,18 +20,6 @@
                         </div>
                         
                     </form>
-                    
-                    {% comment %} AQUÍ VAMOS A TRATAR LOS MENSAJES DE ÉXITO O ERROR {% endcomment %}
-                    {% if  messages %}
-                        <div>
-                            {% for message in messages %}
-                                <div class="alert alert-{{message.tags}}" role="alert">
-                                    {{message}}
-                                  </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                    {% comment %} FIN BLOQUE DE MENSAJES {% endcomment %}
                     
                 </div>
             </div>
