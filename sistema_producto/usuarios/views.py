@@ -6,6 +6,10 @@ from django.contrib.auth.models import User
 
 from .forms import RegistroUsuarioForm, LoginUsuarioForm
 
+from productos.models import Producto
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+
 # Create your views here.
 
 def index_view(request):
@@ -16,8 +20,16 @@ def registro_view(request):
     if request.method == 'POST':
         form = RegistroUsuarioForm(request.POST)
         if form.is_valid():
-            user = form.save() # recibimos al usuario para poder hacer uso de él, si es que queremos
-            # login(request, user) -> definir si queremos que usuario quede logueado inmediatamente
+            
+            content_type = ContentType.objects.get_for_model(Producto)
+            
+            # obtenemos el permiso a asignar
+            ver_productos_vip = Permission.objects.get(codename='productos_vip', content_type=content_type)
+        
+            user = form.save() 
+            user.user_permissions.add(ver_productos_vip)
+            login(request, user)
+            
             messages.success(request, f"Usuario {user.username} registrado con éxito.")
             return HttpResponseRedirect("/")
         else:

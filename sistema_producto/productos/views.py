@@ -1,7 +1,11 @@
 from django.forms import ValidationError
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
 from .models import Producto
+
+from django.contrib.auth.decorators import login_required, permission_required 
+
 
 from .forms import ProductoForm
 
@@ -86,3 +90,15 @@ def add_producto_modelform(request):
         form = ProductoForm()
         return render(request, "productos/add_producto_modelform.html", {"form": form})
 
+
+
+@login_required(login_url='/usuarios/login/')
+@permission_required('productos.productos_vip', raise_exception=False, login_url='/')
+def productos_vip(request):
+    return HttpResponse("acceso a productos vip")
+
+
+@login_required(login_url='/usuarios/login/')
+def productos_destacados(request):
+    return HttpResponse("Productos destacados")
+    
