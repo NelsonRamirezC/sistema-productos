@@ -25,6 +25,8 @@ def productos(request):
 
 
 # VISTA PARA REGISTRAR NUEVOS PRODUCTOS
+@login_required(login_url='/usuarios/login/')
+@permission_required('productos.add_producto', raise_exception=False, login_url='/')
 def add_productos(request):
     if request.method == 'GET':
         return render(request, "productos/add_productos.html", {})
@@ -65,7 +67,8 @@ def add_productos(request):
             return render(request, "productos/add_productos.html", contexto)
         
         
-        
+@login_required(login_url='/usuarios/login/')
+@permission_required('productos.add_producto', raise_exception=False, login_url='/')
 def add_producto_modelform(request):
     
     if request.method == 'POST':
@@ -100,5 +103,8 @@ def productos_vip(request):
 
 @login_required(login_url='/usuarios/login/')
 def productos_destacados(request):
-    return HttpResponse("Productos destacados")
-    
+    user = request.user
+    print(user.get_all_permissions())
+    return HttpResponse(f"Productos destacados, saludos {request.user.username}")
+
+

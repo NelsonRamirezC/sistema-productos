@@ -2,7 +2,7 @@ from django.forms import ValidationError
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from .forms import RegistroUsuarioForm, LoginUsuarioForm
 
@@ -21,13 +21,20 @@ def registro_view(request):
         form = RegistroUsuarioForm(request.POST)
         if form.is_valid():
             
-            content_type = ContentType.objects.get_for_model(Producto)
+            # content_type = ContentType.objects.get_for_model(Producto)
             
-            # obtenemos el permiso a asignar
-            ver_productos_vip = Permission.objects.get(codename='productos_vip', content_type=content_type)
+            # # obtenemos el permiso a asignar
+            # ver_productos_vip = Permission.objects.get(codename='productos_vip', content_type=content_type)
         
             user = form.save() 
-            user.user_permissions.add(ver_productos_vip)
+        
+            # user.user_permissions.add(ver_productos_vip)
+            
+            group = Group.objects.get(name='clientes')
+            
+            user.groups.add(group)
+
+            
             login(request, user)
             
             messages.success(request, f"Usuario {user.username} registrado con éxito.")

@@ -9,23 +9,37 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url "home" %}">Home</a>
           </li>
+
+          {% comment %} {% if 'productos.productos_vip' in user.get_all_permissions %} {% endcomment %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Gestión productos
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{% url "productos" %}">Listado de productos</a></li>
-              <li><a class="dropdown-item" href="{% url "add_productos" %}">Agregar productos</a></li>
-              <li><a class="dropdown-item" href="{% url "add_producto_modelform" %}">add producto modelform</a></li>
-
-              {% if user.is_authenticated %}
-                  {% comment %} {% if user.has_perm("productos_vip") %} {% endcomment %}
-                    <li><a class="dropdown-item" href="{% url "productos_vip" %}">Productos VIP</a></li>
-                  {% comment %} {% endif %} {% endcomment %}
-                <li><a class="dropdown-item" href="{% url "productos_destacados" %}">Productos destacados</a></li>
+              {% if 'productos.add_producto' in user.get_all_permissions %}
+                <li><a class="dropdown-item" href="{% url "add_productos" %}">Agregar productos</a></li>
+                <li><a class="dropdown-item" href="{% url "add_producto_modelform" %}">add producto modelform</a></li>
               {% endif %}
             </ul>
           </li>
+          {% comment %} {% endif %} {% endcomment %}
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Productos
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url "productos" %}">Listado de productos</a></li>
+              {% if user.is_authenticated %}
+                {% if 'productos.productos_vip' in user.get_all_permissions %}
+                    <li><a class="dropdown-item" href="{% url 'productos_vip' %}">Productos VIP</a></li>
+                {% endif %}
+                <li><a class="dropdown-item" href="{% url 'productos_destacados' %}">Productos destacados</a></li>
+              {% endif %}
+            </ul>
+          </li>
+
           <li class="nav-item">
             <a class="nav-link" href="{% url "usuarios_view" %}">Lista de usuarios</a>
           </li>
@@ -43,7 +57,13 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url "logout_view" %}">Logout</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link fw-bold" href="">{{user.email}}</a>
+            </li>
           {% endif %}
+
+
+
 
         </ul>
       </div>
